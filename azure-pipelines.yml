@@ -94,7 +94,7 @@ stages:
         terraform apply -input=false -auto-approve
 
         # Get the App Service name for the dev environment.
-        WebAppNameDev=$(terraform output appservice_name_dev)
+        WebAppNameDev=$(terraform output website_hostname_dev)
 
         # Write the WebAppNameDev variable to the pipeline.
         echo "##vso[task.setvariable variable=WebAppNameDev;isOutput=true]$WebAppNameDev"
@@ -108,7 +108,7 @@ stages:
   - deployment: Deploy
     dependsOn: Provision
     variables:
-      WebAppNameDev: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameDev'] ]
+      WebAppNameDev: $[dependencies.Provision.outputs['RunTerraform.WebAppNameDev'] ]
     pool:
       vmImage: 'ubuntu-16.04'
     environment: dev
